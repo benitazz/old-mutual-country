@@ -16,19 +16,41 @@ describe('CountryService', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should retrieve countries from API', () => {
-    const mockCountries = [{ name:'South Africa' , flag :'🇿🇦'  }];
-    service.getCountries().subscribe(countries => {
-      expect(countries.length).toBe(1);
-      expect(countries).toEqual(mockCountries);
-    });
-    const req = httpMock.expectOne(environment.apiUrl);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockCountries);
+  afterEach(() => {
+    httpMock.verify(); // Ensures no outstanding requests remain
   });
 
-  afterEach(() => {
-    httpMock.verify();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should fetch countries list', () => {
+    const dummyCountries = [
+      { name: 'South Africa', flag: 'https://flagcdn.com/w320/za.png' },
+      { name: 'Germany', flag: 'https://flagcdn.com/w320/de.png' }
+    ];
+
+    service.getCountries().subscribe((countries) => {
+      expect(countries.length).toBe(2);
+      expect(countries).toEqual(dummyCountries);
+    });
+
+    const req = httpMock.expectOne(environment.apiUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyCountries);
+  });
+
+  it('should fetch country details by name', () => {
+    const countryName = 'Germany';
+    const dummyCountryDetails = [{ name: 'Germany', flag: 'https://flagcdn.com/w320/de.png', population: 83240525, capital: "Berlin" }];
+
+    service.getCountriesDetails(countryName).subscribe((country) => {
+      expect(country).toEqual(dummyCountryDetails);
+    });
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/${countryName}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyCountryDetails);
   });
 });
 

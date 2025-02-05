@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CountryService } from '../../services/country.service';
 import { Router } from '@angular/router';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-country-list',
@@ -12,7 +12,7 @@ import {CommonModule} from '@angular/common';
 export class CountryListComponent implements OnInit {
   countries: any[] = [];
 
-  constructor(private countryService: CountryService, private router: Router) {}
+  constructor(private countryService: CountryService, private router: Router) { }
 
   ngOnInit(): void {
     this.countryService.getCountries().subscribe(data => {

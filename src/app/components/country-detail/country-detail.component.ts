@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CountryService } from '../../services/country.service';
 
 @Component({
@@ -24,5 +24,4 @@ export class CountryDetailComponent {
       this.country = data;
     });
   }
-
 }

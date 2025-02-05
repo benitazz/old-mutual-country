@@ -24,7 +24,7 @@ describe('CountryListComponent', () => {
   });
 
   it('should fetch countries on init', () => {
-    const mockCountries = [{ name: 'South Africa', flag: '🇿🇦'  }];
+    const mockCountries = [{ name: 'South Africa', flag: 'https://flagcdn.com/w320/za.png'  }];
     countryService.getCountries.and.returnValue(of(mockCountries));
     fixture.detectChanges();
     expect(component.countries.length).toBe(1);
