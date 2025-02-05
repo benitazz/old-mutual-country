@@ -1,0 +1,10 @@
+<div class="container mt-4" *ngIf="country">
+    <div class="card">
+      <img [src]="country.flag" class="card-img-top" alt="Country Flag">
+      <div class="card-body">
+        <h3 class="card-title">{{ country.name }}</h3>
+        <p><strong>Capital:</strong> {{ country.capital }}</p>
+        <p><strong>Population:</strong> {{ country.population }}</p>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,13 @@
+<div class="container">
+    <h1 class="text-center mt-4">Country Flags</h1>
+    <div class="row">
+      <div class="col-md-3" *ngFor="let country of countries">
+        <div class="card mb-4" (click)="goToDetails(country)" style="cursor:pointer;">
+          <img [src]="country.flag" class="card-img-top" alt="Country Flag">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ country.name }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
