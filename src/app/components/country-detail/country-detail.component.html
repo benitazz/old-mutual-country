@@ -4,7 +4,7 @@
       <div class="card-body">
         <h3 class="card-title">{{ country.name }}</h3>
         <p><strong>Capital:</strong> {{ country.capital }}</p>
-        <p><strong>Population:</strong> {{ country.population }}</p>
+        <p><strong>Population:</strong> {{ country.population | readableNumber }}</p>
       </div>
     </div>
   </div>

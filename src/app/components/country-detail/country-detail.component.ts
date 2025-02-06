@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CountryService } from '../../services/country.service';
+import { ODPipeModule } from '../../pipes/od-pipe.module';
 
 @Component({
   selector: 'app-country-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, ODPipeModule],
   templateUrl: './country-detail.component.html',
   styleUrl: './country-detail.component.scss'
 })
