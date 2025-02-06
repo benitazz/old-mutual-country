@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { CountryListComponent } from './components/country-list/country-list.component';
-
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, CountryListComponent ],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
