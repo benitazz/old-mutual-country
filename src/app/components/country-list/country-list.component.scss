@@ -1,0 +1,14 @@
+    .flag-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+    }
+
+    .fixed-flag {
+        width: 100%;
+        height: auto; /* Maintains aspect ratio without cropping */
+        max-height: 150px; /* Ensures consistent height without forcing a crop */
+        object-fit: contain; /* Scales image properly within given dimensions */
+    }
