@@ -59,6 +59,6 @@ describe('CountryListComponent', () => {
   it('should navigate to country details when goToDetails is called', () => {
     const country = { name: 'Kenya' };
     component.goToDetails(country);
-    expect(router.navigate).toHaveBeenCalledWith(['/country', 'Kenya'], { state: { country } });
+    expect(router.navigate).toHaveBeenCalledWith(['/countrydetail', 'Kenya'], { state: { country } });
   });
 });

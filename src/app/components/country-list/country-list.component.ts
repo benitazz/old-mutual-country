@@ -29,6 +29,6 @@ export class CountryListComponent implements OnInit {
   }
 
   goToDetails(country: any) {
-    this.router.navigate(['/country', country.name], { state: { country } });
+    this.router.navigate(['/countrydetail', country.name], { state: { country } });
   }
 }

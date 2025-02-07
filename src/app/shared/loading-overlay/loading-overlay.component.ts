@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-loading-overlay',
   imports: [MatProgressBarModule, CommonModule],
   templateUrl: './loading-overlay.component.html',
-  styleUrls: ['./loading-overlay.component.css']
+  styleUrls: ['./loading-overlay.component.scss']
 })
 export class LoadingOverlayComponent {
   constructor(public loadingService: LoadingService) { }

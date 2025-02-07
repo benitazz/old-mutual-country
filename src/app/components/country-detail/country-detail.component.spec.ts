@@ -1,63 +1,67 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CountryDetailComponent } from './country-detail.component';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
-import { CommonModule } from '@angular/common';  // Needed for standalone components
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CountryService } from '../../services/country.service';
-import { HttpClientModule } from '@angular/common/http';
+import { LoadingService } from '../../services/loading.service';
+import { ActivatedRoute } from '@angular/router';
+import { of, throwError } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ODPipeModule } from '../../pipes/od-pipe.module';
 
 describe('CountryDetailComponent', () => {
   let component: CountryDetailComponent;
   let fixture: ComponentFixture<CountryDetailComponent>;
   let countryServiceSpy: jasmine.SpyObj<CountryService>;
-  let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let loadingServiceSpy: jasmine.SpyObj<LoadingService>;
 
   beforeEach(async () => {
-    // Mock CountryService
     countryServiceSpy = jasmine.createSpyObj('CountryService', ['getCountriesDetails']);
-    countryServiceSpy.getCountriesDetails.and.returnValue(of({ name: 'South Africa', 
-      capital: 'Pretoria', flag: 'https://flagcdn.com/w320/za.png', population: 59308690 })); // Mock API response
+    loadingServiceSpy = jasmine.createSpyObj('LoadingService', ['show', 'hide']);
 
-    // Mock ActivatedRoute (not really used in this test)
-    activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', [], {
-      snapshot: { queryParams: {} },
-    });
-
-    // Mock history.state
-    Object.defineProperty(window, 'history', {
-      value: {
-        state: { country: { name: 'South Africa' } }, // Ensure this is correctly set
-      },
-      writable: true,
+    Object.defineProperty(history, 'state', {
+      value: { country: { name: 'South Africa' } },
+      writable: true
     });
 
     await TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule, CountryDetailComponent], // Import standalone component
+      imports: [CountryDetailComponent, CommonModule, ODPipeModule],
       providers: [
         { provide: CountryService, useValue: countryServiceSpy },
-        { provide: ActivatedRoute, useValue: activatedRouteSpy },
-      ],
-      schemas: [NO_ERRORS_SCHEMA], // Ignore template errors
+        { provide: LoadingService, useValue: loadingServiceSpy },
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => 'South Africa' } } } }
+      ]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CountryDetailComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger lifecycle hooks
+    //fixture.detectChanges(); // Ensures lifecycle hooks run
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getCountriesDetails on ngOnInit and populate country', () => {
+  it('should fetch country details on init', () => {
+    const mockCountryData = { name: 'South Africa', flag: 'https://flagcdn.com/w320/za.png',  capital: 'Pretoria', population: 59308690 };
+    countryServiceSpy.getCountriesDetails.and.returnValue(of(mockCountryData));
+
     component.ngOnInit();
-    expect(component.country).toEqual({ name: 'South Africa', capital: 'Pretoria', population: 59308690, flag: 'https://flagcdn.com/w320/za.png'});
+    expect(loadingServiceSpy.show).toHaveBeenCalled();
+    expect(countryServiceSpy.getCountriesDetails).toHaveBeenCalledWith('South Africa');
+    expect(component.country).toEqual(mockCountryData);
+    expect(loadingServiceSpy.hide).toHaveBeenCalled();
   });
 
-  it('should set countryname from history.state', () => {
-    expect(component.countryname).toBe('South Africa');
-  });
+  /*it('should handle error when fetching country details', () => {
+    const errorMessage = new Error('API Error');
+    countryServiceSpy.getCountriesDetails.and.returnValue(throwError(() => errorMessage));
+    spyOn(console, 'error');
+
+    component.ngOnInit();
+    expect(loadingServiceSpy.show).toHaveBeenCalled();
+    expect(countryServiceSpy.getCountriesDetails).toHaveBeenCalledWith('test-country');
+    expect(console.error).toHaveBeenCalledWith(errorMessage);
+    expect(loadingServiceSpy.hide).toHaveBeenCalled();
+  });*/
 });

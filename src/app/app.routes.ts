@@ -4,5 +4,5 @@ import { CountryDetailComponent } from './components/country-detail/country-deta
 
 export const routes: Routes = [
     { path: '', component: CountryListComponent },
-    { path: 'country/:name', component: CountryDetailComponent }
+    { path: 'countrydetail/:name', component: CountryDetailComponent }
 ]
